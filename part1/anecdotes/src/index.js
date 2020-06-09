@@ -9,9 +9,12 @@ const App = (props) => {
       0
     )
   );
+  const [max, setMax] = useState(0);
   const vote = () => {
     const copy = [...points];
-    ++copy[selected];
+    if (++copy[selected] > copy[max]) {
+      setMax(selected);
+    }
     setPoints(copy);
   };
   const random = () => Math.floor(Math.random() * anecdotes.length);
@@ -19,10 +22,15 @@ const App = (props) => {
 
   return (
     <>
+      <h1>Anecdote of the day</h1>
       <div>{props.anecdotes[selected]}</div>
       <div>has {points[selected]} votes</div>
       <button onClick={vote}>vote</button>
       <button onClick={next}>next anecdote</button>
+
+      <h1>Anecdote with most votes</h1>
+      <div>{props.anecdotes[max]}</div>
+      <div>has {points[max]} votes</div>
     </>
   );
 };
